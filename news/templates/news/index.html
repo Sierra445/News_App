@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +5,11 @@
 </head>
 <body>
     <h1>Latest News</h1>
+
+ 
+    <p><a href="{% url 'news-add-post' %}">📝 Add New Article</a></p>
+    <hr>
+
     {% for article in articles %}
         <h2>{{ article.title }}</h2>
         <p><em>By {{ article.author }} on {{ article.pub_date|date:"M d, Y H:i" }}</em></p>
@@ -16,4 +20,3 @@
     {% endfor %}
 </body>
 </html>
-
