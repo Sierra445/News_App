@@ -6,6 +6,16 @@ class Article(models.Model):
     content = models.TextField()
     pub_date = models.DateTimeField(default=timezone.now)
     author = models.CharField(max_length=100, blank=True, null=True)
+    category = models.CharField(max_length=100, blank=True, null=True)  # added
+
+    def __str__(self):
+        return self.title
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    pub_date = models.DateTimeField(default=timezone.now)
+    author = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.title
