@@ -19,5 +19,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('news.urls')),  # include news app at site root
 ]
+=======
+    path('', include('news.urls')),  
+]
+>>>>>>> 004ab6783df51e7660ea2dd5a0182e380bcfb5d7
