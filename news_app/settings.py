@@ -1,49 +1,47 @@
-import os
 from pathlib import Path
 from dotenv import load_dotenv
+import os
+
+load_dotenv()
+print("Loaded KEY:", os.getenv("WEATHER_API_KEY"))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")  # load environment variables from project .env
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "replace-this-for-dev")
+SECRET_KEY = 'django-insecure-your-key-here'
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "news",                  # your app
-    "django.contrib.humanize",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'newsapp',
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",   # for language switching
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = "news_app.urls"
+ROOT_URLCONF = 'news_app.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / "newsapp" / "templates"],  # optional
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.template.context_processors.i18n',  # ADD THIS LINE
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -51,56 +49,29 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "news_app.wsgi.application"
+WSGI_APPLICATION = 'news_app.wsgi.application'
 
-# If you have an ASGI_APPLICATION setting, change it too:
-# ASGI_APPLICATION = "news_portal.asgi.application"
-ASGI_APPLICATION = "news_app.asgi.application"
-
-# DB (sqlite for dev)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = []  # adjust for production
+AUTH_PASSWORD_VALIDATORS = []
 
-LANGUAGE_CODE = "en"
-LANGUAGES = [
-    ('en', 'English'),
-    ('af', 'Afrikaans'),
-    ('zu', 'isiZulu'),
-    ('xh', 'isiXhosa'),
-    ('st', 'Sesotho'),
-    ('tn', 'Setswana'),
-    ('nso', 'Sepedi'),
-    ('ve', 'Tshivenda'),
-    ('ts', 'Xitsonga'),
-    ('nr', 'isiNdebele'),
-    ('ss', 'siSwati'),
-    ('es', 'Spanish'),
-    ('fr', 'Français'),
-    ('pt', 'Português'),
-    ('sw', 'Swahili'),
-]
-LOCALE_PATHS = [ BASE_DIR / "locale" ]
-
-LANGUAGE_SESSION_KEY = 'django_language'
-
-TIME_ZONE = "Africa/Johannesburg"
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'Africa/Johannesburg'
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [ BASE_DIR / "static" ]
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ BASE_DIR / "newsapp/static" ]
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 
-# External API keys (set these in .env)
-OPENWEATHER_API_KEY = os.environ.get("OPENWEATHER_API_KEY", "")
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,0 +1,29 @@
+{% extends 'newsapp/base.html' %}
+
+{% block title %}{{ article.title }} - News App{% endblock %}
+
+{% block content %}
+<article class="article-detail">
+    {% if article.image %}
+    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-detail-image">
+    {% endif %}
+    
+    <h1 class="article-detail-title">{{ article.title }}</h1>
+    
+    <div class="article-detail-meta">
+        <p><strong>Author:</strong> {{ article.author }}</p>
+        <p><strong>Published:</strong> {{ article.created_at|date:"F j, Y" }}</p>
+        {% if article.category %}
+        <p><strong>Category:</strong> {{ article.category.name }}</p>
+        {% endif %}
+    </div>
+    
+    <div class="article-content">
+        {{ article.content|linebreaks }}
+    </div>
+</article>
+
+<div class="navigation-links">
+    <a href="{% url 'home' %}" class="btn">Back to Home</a>
+</div>
+{% endblock %}

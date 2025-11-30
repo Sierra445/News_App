@@ -1,0 +1,23 @@
+{% extends 'newsapp/base.html' %}
+
+{% block title %}Categories - News App{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Categories</h1>
+    <p>Browse articles by category</p>
+</div>
+
+<div class="categories-grid">
+    {% for category in categories %}
+    <a href="{% url 'category_articles' category.id %}" class="category-card">
+        <h3>{{ category.name }}</h3>
+        <p>{{ category.article_set.count }} articles</p>
+    </a>
+    {% empty %}
+    <div class="no-categories">
+        <p>No categories available.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

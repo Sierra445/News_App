@@ -1,25 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class Article(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
-    content = models.TextField()
-<<<<<<< HEAD:news/models.py
-    pub_date = models.DateTimeField(default=timezone.now)
-    author = models.CharField(max_length=100, blank=True, null=True)
-    category = models.CharField(max_length=100, blank=True, null=True)  # added
-=======
-    pub_date = models.DateTimeField()
->>>>>>> 004ab6783df51e7660ea2dd5a0182e380bcfb5d7:newsapp/models.py
+class Category(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.title
+        return self.name
 
-class Post(models.Model):
-    title = models.CharField(max_length=100)
+
+class Article(models.Model):
+    title = models.CharField(max_length=255)
     content = models.TextField()
-    pub_date = models.DateTimeField(default=timezone.now)
-    author = models.CharField(max_length=100, blank=True, null=True)
+    image = models.ImageField(upload_to="articles/", blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
