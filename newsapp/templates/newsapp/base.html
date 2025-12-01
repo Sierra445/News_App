@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Newsly{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'newsapp/css/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'home' %}" class="logo-container">
+                <!-- Logo only, no text -->
+                <img src="{% static 'newsapp/images/logo-new.png' %}" alt="News App Logo" class="logo-image">
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'add_article' %}">Add Article</a></li>
+                    <li><a href="{% url 'logout' %}">Logout ({{ user.username }})</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Newsly. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
