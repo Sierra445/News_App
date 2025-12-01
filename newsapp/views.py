@@ -36,8 +36,8 @@ def home(request):
         "weather_list": weather_data
     })
 
-def article_detail(request, pk):
-    article = get_object_or_404(Article, pk=pk)
+def article_detail(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
     return render(request, 'newsapp/article_detail.html', {"article": article})
 
 @login_required
@@ -58,11 +58,10 @@ def categories(request):
     return render(request, 'newsapp/categories.html', {"categories": cats})
 
 def category_articles(request, category_id):
-    from .models import Article, Category
-
-    category = Category.objects.get(pk=category_id)
+    category = get_object_or_404(Category, pk=category_id)
     articles = Article.objects.filter(category=category).order_by('-created_at')
-    return render(request, 'newsapp/categories.html', {
+
+    return render(request, 'newsapp/category_articles.html', {
         "category": category,
         "articles": articles
     })

@@ -7,6 +7,7 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ['title', 'content', 'image', 'category']
+        widgets = { "category": forms.Select(attrs={"class": "form-control"})}
 
 
 class RegisterForm(UserCreationForm):

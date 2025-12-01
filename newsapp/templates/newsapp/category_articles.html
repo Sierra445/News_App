@@ -1,0 +1,35 @@
+{% extends 'newsapp/base.html' %}
+
+{% block title %}{{ category.name }} - Newsly{% endblock %}
+
+{% block content %}
+
+<h1>{{ category.name }}</h1>
+
+<div class="articles-grid">
+    {% for article in articles %}
+    <article class="article-card">
+        {% if article.image %}
+        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image">
+        {% endif %}
+        
+        <div class="article-content">
+            <h2 class="article-title">
+                <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+            </h2>
+
+            <div class="article-meta">
+                By {{ article.author }} | {{ article.created_at|date:"F j, Y" }}
+            </div>
+
+            <p class="article-excerpt">{{ article.content|truncatewords:25 }}</p>
+
+            <a href="{% url 'article_detail' article.id %}" class="read-more">Read More</a>
+        </div>
+    </article>
+    {% empty %}
+        <p>No articles in this category yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

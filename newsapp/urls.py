@@ -10,6 +10,6 @@ urlpatterns = [
     path('categories/', views.categories, name='categories'),
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
-    path('logout/', views.logout_view, name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('category/<int:category_id>/', views.category_articles, name='category_articles'),
 ]
