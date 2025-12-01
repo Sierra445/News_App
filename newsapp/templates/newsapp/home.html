@@ -37,7 +37,6 @@
     {% endfor %}
 </div>
 
-
     <div class="masonry-grid">
     {% for article in articles %}
     <article class="masonry-item">
@@ -65,6 +64,7 @@
     {% endfor %}
 </div>
 
+
 <script>
 let cards = document.querySelectorAll("[data-weather-card]");
 let index = 0;
@@ -79,5 +79,5 @@ function rotateWeather() {
 rotateWeather();
 setInterval(rotateWeather, 5000);
 </script>
-
 {% endblock %}
+

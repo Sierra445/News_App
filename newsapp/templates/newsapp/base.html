@@ -9,11 +9,15 @@
     <link rel="stylesheet" href="{% static 'newsapp/css/style.css' %}">
 </head>
 <body>
+    <!-- Image on top -->
+    <div class="header-image">
+        <img src="{% static 'newsapp/images/header-banner.png' %}" alt="Header Banner">
+    </div>
     <header class="header">
         <nav class="navbar">
             <a href="{% url 'home' %}" class="logo-container">
                 <!-- Logo only, no text -->
-                <img src="{% static 'newsapp/images/logo-new.png' %}" alt="News App Logo" class="logo-image">
+                <img src="{% static 'newsapp/images/logo.png' %}" alt="News App Logo" class="logo-image">
             </a>
             <ul class="nav-links">
                 <li><a href="{% url 'home' %}">Home</a></li>
@@ -52,7 +56,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2024 Newsly. All rights reserved.</p>
+        <p>&copy; 2025 Newsly. All rights reserved.</p>
     </footer>
 </body>
 </html>

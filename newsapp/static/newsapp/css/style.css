@@ -15,6 +15,14 @@ body {
 
 
 /* HEADER WITH CANVA BACKGROUND IMAGE */
+.header-image img {
+    width: 100%;       /* full width */
+    height: 20px;      /* keep aspect ratio */
+    display: block;    /* remove inline spacing */
+    margin-bottom: 0; /* space between image and navbar */
+    border-radius: 8px;  /* optional rounded corners */
+}
+
 .header {
     background: linear-gradient(135deg, #ff9a9e, #fad0c4 100%);
     color: white;
@@ -161,7 +169,28 @@ body {
 .snow { background: #E1F5FE; }
 .mist, .fog { background: #B0BEC5; }
 
+.currency-widget {
+    width: 100%;
+    overflow: hidden;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+}
 
+.ticker {
+    display: flex;
+    animation: scroll 15s linear infinite;
+}
+
+.ticker-item {
+    margin-right: 50px;
+    font-weight: bold;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
 
 /* MASONRY GRID */
 .masonry-grid {
@@ -334,6 +363,10 @@ body {
     border: 1px solid #f5c6cb;
 }
 
+.bottom-widget {
+    margin-top: 30px; /* space above the footer */
+    margin-bottom: 10px;
+}
 /* Footer */
 .footer {
     background: #333;

@@ -1,0 +1,51 @@
+<div class="currency-widget">
+    <h3>Exchange Rates ({{ base_currency }})</h3>
+    <div class="ticker">
+        {% for currency, rate in rates.items %}
+        <div class="ticker-item">
+            {{ currency }}: {{ rate }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.currency-widget {
+    width: 100%;
+    overflow: hidden;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.ticker {
+    display: flex;
+    animation: scroll 15s linear infinite;
+}
+
+.ticker-item {
+    margin-right: 50px;
+    font-weight: bold;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+</style>
+<script>
+function refreshCurrencyWidget() {
+    fetch("{% url 'currency_widget' %}")
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newWidget = doc.querySelector('.currency-widget');
+            document.querySelector('.currency-widget').innerHTML = newWidget.innerHTML;
+        });
+}
+
+// Refresh every 60 seconds
+setInterval(refreshCurrencyWidget, 60000);
+</script>
+{% endblock %}
