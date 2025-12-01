@@ -38,23 +38,25 @@
 </div>
 
 
-<div class="articles-grid">
+    <div class="masonry-grid">
     {% for article in articles %}
-    <article class="article-card">
+    <article class="masonry-item">
         {% if article.image %}
-        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image">
+            <img src="{{ article.image.url }}" alt="{{ article.title }}">
         {% endif %}
-        <div class="article-content">
-            <h2 class="article-title">{{ article.title }}</h2>
-            <div class="article-meta">
-                By {{ article.author }} | {{ article.created_at|date:"F j, Y" }}
-                {% if article.category %}
-                | <span class="category">{{ article.category.name }}</span>
-                {% endif %}
-            </div>
-            <p class="article-excerpt">{{ article.content|truncatewords:30 }}</p>
-            <a href="{% url 'article_detail' article.id %}" class="read-more">Read More</a>
-        </div>
+
+        <h2>{{ article.title }}</h2>
+
+        <p class="article-meta">
+            By {{ article.author }} — 
+            {{ article.created_at|date:"F j, Y" }}
+        </p>
+
+        <p class="excerpt">{{ article.content|truncatewords:25 }}</p>
+
+        <a href="{% url 'article_detail' article.id %}" class="read-more">
+            Read More
+        </a>
     </article>
     {% empty %}
     <div class="no-articles">
@@ -62,6 +64,7 @@
     </div>
     {% endfor %}
 </div>
+
 <script>
 let cards = document.querySelectorAll("[data-weather-card]");
 let index = 0;
