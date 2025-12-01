@@ -20,7 +20,14 @@
                 <li><a href="{% url 'categories' %}">Categories</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'add_article' %}">Add Article</a></li>
-                    <li><a href="{% url 'logout' %}">Logout ({{ user.username }})</a></li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn logout-btn">
+                                Logout ({{ user.username }})
+                            </button>
+                        </form>
+                    </li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Register</a></li>
