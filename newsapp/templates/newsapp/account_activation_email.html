@@ -1,0 +1,12 @@
+Hi {{ user.username }},
+
+Thank you for registering on Newsly!
+
+Please click the link below to activate your account:
+
+http://{{ domain }}{% url 'activate_account' uid=uid token=token %}
+
+If you did not create this account, please ignore this email.
+
+Thanks,
+The Newsly Team
