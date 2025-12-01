@@ -8,6 +8,20 @@
     <p>Stay updated with the latest articles and stories</p>
 </div>
 
+<div class="news-ticker">
+    <div class="ticker-title">Latest:</div>
+    <div class="ticker-content">
+        <div class="ticker-move">
+            {% for article in articles %}
+                <span class="ticker-item">
+                    {{ article.title }} — {{ article.created_at|date:"M j" }}
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
 <div class="weather-widget">
     {% for w in weather_list %}
     <div class="weather-card" data-weather-card>

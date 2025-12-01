@@ -15,6 +15,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from .tokens import account_activation_token
 
+WEATHER_API_KEY = "9892810cb987a16f049b84f8193326ce"
 
 WEATHER_API_KEY = "9892810cb987a16f049b84f8193326ce"
 CITIES = ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Bloemfontein"]
