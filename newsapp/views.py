@@ -87,10 +87,23 @@ def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            user = form.save()  # save the new user
+
+            # Automatically log in the user
+            login(request, user)
+
+            # Add a success message
+            messages.success(request, f"Account created! Welcome, {user.username}.")
+
+            # Redirect directly to add article page
+            return redirect('add_article')
+        else:
+            # Add error message if form is invalid
+            messages.error(request, "There was an error creating your account. Please check the details.")
+
     else:
         form = RegisterForm()
+
     return render(request, 'newsapp/register.html', {"form": form})
 
 

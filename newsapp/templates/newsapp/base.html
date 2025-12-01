@@ -12,26 +12,24 @@
 <body>
     <header class="header">
         <nav class="navbar">
+            <!-- Logo -->
             <a href="{% url 'home' %}" class="logo-container">
                 <img src="{% static 'newsapp/images/logo.png' %}" 
-                     alt="News App Logo" 
+                     alt="Newsly" 
                      class="logo-image">
             </a>
 
+            <!-- Navigation Links -->
             <ul class="nav-links">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'categories' %}">Categories</a></li>
 
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'add_article' %}">Add Article</a></li>
-
-                    <!-- 🔥 FIXED: Logout now uses POST -->
                     <li>
-                        <form action="{% url 'logout' %}" 
-                              method="POST" 
-                              style="display:inline;">
+                        <form action="{% url 'logout' %}" method="POST" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="logout-btn">
+                            <button type="submit" class="btn logout-btn">
                                 Logout ({{ user.username }})
                             </button>
                         </form>
@@ -44,6 +42,7 @@
         </nav>
     </header>
 
+    <!-- Messages Section -->
     <main class="container">
         {% if messages %}
             <div class="messages">
@@ -55,10 +54,12 @@
             </div>
         {% endif %}
 
+        <!-- Main Content -->
         {% block content %}
         {% endblock %}
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Newsly. All rights reserved.</p>
     </footer>
