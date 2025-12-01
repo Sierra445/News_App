@@ -19,7 +19,7 @@ from .tokens import account_activation_token
 WEATHER_API_KEY = "9892810cb987a16f049b84f8193326ce"
 CITIES = ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Bloemfontein"]
 
-# ---------------- WEATHER -----------------
+
 def get_weather(city):
     try:
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric"
@@ -34,7 +34,6 @@ def get_weather(city):
     except:
         return None
 
-# ---------------- HOME -----------------
 def home(request):
     articles = Article.objects.all().order_by("-created_at")
     weather_data = [get_weather(city) for city in CITIES]
@@ -43,12 +42,10 @@ def home(request):
         "weather_list": weather_data
     })
 
-# ---------------- ARTICLE DETAIL -----------------
 def article_detail(request, article_id):
     article = get_object_or_404(Article, pk=article_id)
     return render(request, 'newsapp/article_detail.html', {"article": article})
 
-# ---------------- ADD ARTICLE -----------------
 @login_required
 def add_article(request):
     if request.method == "POST":
@@ -63,7 +60,6 @@ def add_article(request):
         form = ArticleForm()
     return render(request, 'newsapp/add_article.html', {"form": form})
 
-# ---------------- CATEGORIES -----------------
 def categories(request):
     cats = Category.objects.all()
     return render(request, 'newsapp/categories.html', {"categories": cats})
@@ -76,7 +72,6 @@ def category_articles(request, category_id):
         "articles": articles
     })
 
-# ---------------- LOGIN -----------------
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -92,16 +87,15 @@ def login_view(request):
 
     return render(request, 'newsapp/login.html')
 
-# ---------------- REGISTER -----------------
 def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # deactivate until email verification
+            user.is_active = False 
             user.save()
 
-            # Send activation email
+            
             current_site = get_current_site(request)
             subject = 'Activate Your Newsly Account'
             message = render_to_string('newsapp/account_activation_email.html', {
@@ -114,26 +108,25 @@ def register_view(request):
             send_mail(
                 subject,
                 message,
-                'no-reply@newsly.com',  # Replace with your email
+                'no-reply@newsly.com',  
                 [user.email],
                 fail_silently=False,
             )
 
             messages.success(request, 'Account created! Please check your email to activate your account.')
-            return redirect('login')  # Redirect to login or a "check email" page
+            return redirect('login')  
     else:
         form = RegisterForm()
 
     return render(request, "newsapp/register.html", {"form": form})
 
-# ---------------- LOGOUT -----------------
 @require_POST
 def logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out.")
     return redirect('home')
 
-# ---------------- ACCOUNT ACTIVATION -----------------
+
 def activate(request, uid, token):
     try:
         uid = force_str(urlsafe_base64_decode(uid))
