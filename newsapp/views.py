@@ -38,9 +38,11 @@ def get_weather(city):
 def home(request):
     articles = Article.objects.all().order_by("-created_at")
     weather_data = [get_weather(city) for city in CITIES]
+    latest_articles = articles[:5]
     return render(request, "newsapp/home.html", {
         "articles": articles,
-        "weather_list": weather_data
+        "weather_list": weather_data,
+        "latest_articles": latest_articles
     })
 
 def article_detail(request, article_id):

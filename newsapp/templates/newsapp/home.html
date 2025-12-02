@@ -4,22 +4,31 @@
 
 {% block content %}
 <div class="hero-section">
-    <h1>Latest News</h1>
-    <p>Stay updated with the latest articles and stories</p>
+  <h1>Latest News</h1>
+  <p>Stay updated with the latest articles and stories</p>
+
+  <!-- News Ticker -->
+  <div class="news-ticker-hero" aria-hidden="false">
+      <div class="ticker-title">Breaking:</div>
+
+      <div class="ticker-viewport">
+          <div class="ticker-track">
+
+              {% if latest_articles %}
+                  {% for article in latest_articles %}
+                      <span class="ticker-item">{{ article.title }}</span>
+                  {% endfor %}
+              {% else %}
+                  {% for article in articles %}
+                      <span class="ticker-item">{{ article.title }}</span>
+                  {% endfor %}
+              {% endif %}
+
+          </div>
+      </div>
+  </div>
 </div>
 
-<div class="news-ticker">
-    <div class="ticker-title">Latest:</div>
-    <div class="ticker-content">
-        <div class="ticker-move">
-            {% for article in articles %}
-                <span class="ticker-item">
-                    {{ article.title }} — {{ article.created_at|date:"M j" }}
-                </span>
-            {% endfor %}
-        </div>
-    </div>
-</div>
 
 
 <div class="weather-widget">
@@ -78,6 +87,66 @@ function rotateWeather() {
 
 rotateWeather();
 setInterval(rotateWeather, 5000);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector('.ticker-track');
+  const viewport = document.querySelector('.ticker-viewport');
+
+  if (!track || !viewport) return;
+
+  // If no items, do nothing
+  const items = track.querySelectorAll('.ticker-item');
+  if (!items.length) return;
+
+  // Duplicate the content so we can have a continuous loop
+  track.innerHTML = track.innerHTML + track.innerHTML;
+
+  // Helper to create/update the animation based on measured width
+  let animStyleEl = document.getElementById('ticker-anim-style');
+  if (!animStyleEl) {
+    animStyleEl = document.createElement('style');
+    animStyleEl.id = 'ticker-anim-style';
+    document.head.appendChild(animStyleEl);
+  }
+
+  function updateTickerAnimation() {
+    // width of first half (original content)
+    const totalWidth =  Array.from(track.children)
+                            .slice(0, items.length)
+                            .reduce((acc, el) => acc + el.getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap || 0), 0);
+
+    // safety: if totalWidth is 0, bail out
+    if (totalWidth <= 0) return;
+
+    // choose a smooth scroll speed: pixels per second (adjustable)
+    const pxPerSecond = 80; // lower = slower, increase to speed up
+    const duration = Math.max(8, totalWidth / pxPerSecond); // seconds
+
+    // Build keyframes CSS
+    const keyframes = `
+      @keyframes ticker-scroll {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-${totalWidth}px); }
+      }
+    `;
+    // Insert CSS to the style element
+    animStyleEl.innerHTML = keyframes + `
+      .ticker-track {
+         animation: ticker-scroll ${duration}s linear infinite;
+      }
+    `;
+  }
+
+  // initial setup
+  updateTickerAnimation();
+
+  // recompute animation on window resize (debounced)
+  let resizeTimeout;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(updateTickerAnimation, 200);
+  });
+});
 </script>
 {% endblock %}
 

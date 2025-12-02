@@ -13,23 +13,23 @@ body {
     background-color: #f8f9fa;
 }
 
-
-/* HEADER WITH CANVA BACKGROUND IMAGE */
-
+/* HEADER */
 .header {
     background: linear-gradient(135deg, #ff9a9e, #fad0c4 100%);
     color: white;
-    padding: 1rem 0;
+    padding: 0.8rem 0;               /* Reduced padding so header is slimmer */
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+
+    max-width: 1400px;               /* Wider navbar */
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;                 /* Reduced side padding */
 }
 
 /* Logo styles */
@@ -70,90 +70,131 @@ body {
     opacity: 0.8;
 }
 
-/* Main content */
+/* MAIN CONTENT */
 .container {
-    max-width: 1400px;
-    margin: 1rem auto;
-    padding: 0 1rem;
+    max-width: 1500px !important;    /* Wider content area */
+    margin: 1rem auto;               /* Reduced top margin */
+    padding: 0 0.5rem;               /* Brings content closer to screen edges */
 }
 
-
-/* NEWS TICKER */
-.news-ticker {
-    display: flex;
-    align-items: center;
-    background: #ff6e72; /* red like BBC */
-    color: white;
-    padding: 8px 12px;
-    font-size: 1rem;
-    overflow: hidden;
-    white-space: nowrap;
+/* HERO + TICKER (robust) */
+.hero-section {
+  width: 100%;
+  background: linear-gradient(135deg, #ffe1e6, #ffd4d9);
+  padding: 40px 20px 24px;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  margin-bottom: 18px;
 }
 
-.ticker-title {
-    font-weight: bold;
-    margin-right: 12px;
+.hero-section h1 { font-size: 2.2rem; margin: 0 0 6px; }
+.hero-section p  { margin: 0 0 18px; color: #444; }
+
+/* Ticker layout */
+.news-ticker-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+.news-ticker-hero .ticker-title {
+  font-weight: 700;
+  color: #fff;
+  background: #d9454c;
+  padding: 8px 12px;
+  border-radius: 6px;
+  flex: 0 0 auto;
 }
 
-.ticker-content {
-    overflow: hidden;
-    width: 100%;
-    position: relative;
+/* viewport (clipping) */
+.ticker-viewport {
+  overflow: hidden;
+  width: 78%;              /* adjust how much width the ticker should take */
+  min-width: 260px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.06);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.04);
 }
 
-.ticker-move {
-    display: inline-block;
-    padding-left: 100%;
-    animation: ticker-scroll 15s linear infinite;
+/* track (the element that will move) */
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px;               /* space between items */
+  white-space: nowrap;
+  will-change: transform;
+  padding: 12px 20px;      /* vertical padding inside ticker */
 }
 
+/* each item */
 .ticker-item {
-    margin-right: 40px; /* space between items */
+  display: inline-block;
+  font-weight: 600;
+  color: #222;
+  font-size: 0.98rem;
 }
 
-/* Animation */
-@keyframes ticker-scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+/* small screen tweaks */
+@media (max-width: 900px) {
+  .ticker-viewport { width: 85%; }
+  .ticker-track { gap: 28px; }
+  .ticker-item { font-size: 0.92rem; }
 }
+
+@media (max-width: 480px) {
+  .ticker-viewport { width: 92%; }
+  .ticker-title { display: none; } /* hide label to save space */
+}
+
 
 /* WEATHER WIDGET */
+/* FULL-WIDTH WEATHER WIDGET */
 .weather-widget {
     width: 100%;
-    max-width: 450px;
-    margin: 20px auto;
-    position: relative;
+    margin: 20px 0;     /* remove auto centering */
+    padding: 0;
 }
 
+/* Weather card full-width */
 .weather-card {
+    width: 100%;
     display: none;
     align-items: center;
-    gap: 15px;
-    padding: 18px;
-    border-radius: 12px;
+    gap: 20px;
+
+    padding: 25px 30px;
+    border-radius: 0;  /* full-width banner style */
     background: #f5f5f5;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     transition: 0.4s ease-in-out;
+
+    justify-content: flex-start; /* align left */
 }
 
+/* Icon box */
 .weather-icon-container {
-    width: 90px;
-    height: 90px;
-    border-radius: 12px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Text sizes */
 .weather-info h3 {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     margin: 0;
 }
 
 .weather-temp {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
 }
+
 /* COLOUR BACKGROUNDS LIKE BBC */
 .clear  { background: #FFE082; }      /* yellow sunny */
 .clouds { background: #CFD8DC; }      /* grey cloudy */
@@ -190,7 +231,7 @@ body {
 .masonry-grid {
     column-count: 3;             /* number of columns */
     column-gap: 20px;
-    padding: 20px;
+    padding: 10px 0;
 }
 
 .masonry-item {
