@@ -92,30 +92,14 @@ def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False 
+            user = form.save()  # Create the user without disabling the account
+            user.is_active = True  # Make sure the user is active immediately
             user.save()
 
-            
-            current_site = get_current_site(request)
-            subject = 'Activate Your Newsly Account'
-            message = render_to_string('newsapp/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-
-            send_mail(
-                subject,
-                message,
-                'no-reply@newsly.com',  
-                [user.email],
-                fail_silently=False,
-            )
-
-            messages.success(request, 'Account created! Please check your email to activate your account.')
-            return redirect('login')  
+            # Log the user in immediately after registration
+            login(request, user)
+            messages.success(request, f"Welcome, {user.username}! You are now logged in.")
+            return redirect('home')  # Redirect to the home page or wherever you want
     else:
         form = RegisterForm()
 
@@ -143,3 +127,36 @@ def activate(request, uid, token):
         return redirect('add_article')
     else:
         return HttpResponse('Activation link is invalid or expired!')
+
+@login_required
+def edit_article(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+
+    # Ensure the logged-in user is the author of the article
+    if article.author != request.user:
+        messages.error(request, "You are not authorized to edit this article.")
+        return redirect('article_detail', article_id=article.id)
+
+    if request.method == "POST":
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Article updated successfully!")
+            return redirect('article_detail', article_id=article.id)
+    else:
+        form = ArticleForm(instance=article)
+
+    return render(request, 'newsapp/edit_article.html', {'form': form, 'article': article})
+
+@login_required
+def delete_article(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+
+    # Ensure the logged-in user is the author of the article
+    if article.author != request.user:
+        messages.error(request, "You are not authorized to delete this article.")
+        return redirect('article_detail', article_id=article.id)
+
+    article.delete()
+    messages.success(request, "Article deleted successfully!")
+    return redirect('home')  # Redir
