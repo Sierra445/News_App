@@ -1,0 +1,9 @@
+Django==5.2.8
+djangorestframework==3.14.0   # if you use DRF
+pytz==2022.1
+sqlparse==0.5.3
+python-dotenv==1.2.1
+requests==2.25.1
+pillow==12.0.0                 # if you handle images
+python-jose==3.3.0             # optional JWT/auth if used
+PyYAML==5.4.1                  # if you use YAML configs
