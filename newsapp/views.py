@@ -30,7 +30,7 @@ def get_weather(city):
             "temp": response["main"]["temp"],
             "description": response["weather"][0]["description"].title(),
             "icon": response["weather"][0]["icon"],
-            "main": response["weather"][0]["main"]  # e.g., Rain, Clear
+            "main": response["weather"][0]["main"] # e.g., Rain, Clear
         }
     except:
         return None
@@ -94,14 +94,14 @@ def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Create the user without disabling the account
-            user.is_active = True  # Make sure the user is active immediately
+            user = form.save() # Create the user without disabling the account
+            user.is_active = True # Make sure the user is active immediately
             user.save()
 
             # Log the user in immediately after registration
             login(request, user)
             messages.success(request, f"Welcome, {user.username}! You are now logged in.")
-            return redirect('home')  # Redirect to the home page or wherever you want
+            return redirect('home') # Redirect to the home page or wherever you want
     else:
         form = RegisterForm()
 
@@ -161,4 +161,4 @@ def delete_article(request, article_id):
 
     article.delete()
     messages.success(request, "Article deleted successfully!")
-    return redirect('home')  # Redir
+    return redirect('home') # Redir
